@@ -1,0 +1,40 @@
+<!doctype html>
+<head>
+<title>Assignment 2</title>
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+</head>
+<body>
+
+<div>Question: <span id="pattern"></span></div>
+<div><input id="newGuesses" type="text" />
+             <button id="submit">Guess</button></div>
+<div id="fail"></div>
+
+<script>
+function guess() {
+  var oldPattern = $("#pattern").text();
+  var newGuesses = $("#newGuesses").val();
+  $.get("/rest/testanswer",
+        { oldPattern: oldPattern, oldGuesses: oldGuesses, newGuesses: newGuesses },
+        function(newPattern) {
+          $("#pattern").text(newPattern);
+          $("#newGuesses").val("");
+          $("#newGuesses").focus();
+        })
+   .fail(function(jqXHR, textStatus, errorThrown) {
+           $("#fail").text(textStatus + ": " + errorThrown);
+         });
+};
+
+$(function() {
+  $.get("/rest/randomQuestion",
+        function(thestart) {
+          $("#pattern").text(thestart);
+          $("#submit").click(guess);
+          $("#newGuesses").focus();
+        });
+});
+</script>
+
+</body>
+</html>
