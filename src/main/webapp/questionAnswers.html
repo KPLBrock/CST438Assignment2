@@ -15,7 +15,7 @@ function guess() {
   var oldPattern = $("#pattern").text();
   var newGuesses = $("#newGuesses").val();
   $.get("/rest/testanswer",
-        { oldPattern: oldPattern, oldGuesses: oldGuesses, newGuesses: newGuesses },
+        { oldPattern: oldPattern, newGuesses: newGuesses },
         function(newPattern) {
           $("#pattern").text(newPattern);
           $("#newGuesses").val("");
